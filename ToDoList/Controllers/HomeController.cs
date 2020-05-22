@@ -12,10 +12,11 @@ namespace ToDoList.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private ToDoListContext _context;
+        public HomeController(ILogger<HomeController> logger, ToDoListContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
