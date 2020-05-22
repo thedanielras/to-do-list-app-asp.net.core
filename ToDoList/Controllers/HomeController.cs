@@ -24,6 +24,18 @@ namespace ToDoList.Controllers
             var toDoItems = _context.ToDoItems.ToList();
             return View(toDoItems);
         }
+        
+        [HttpPost]
+        public IActionResult Add(ToDoItem toDoItem)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.ToDoItems.Add((toDoItem));
+                _context.SaveChanges();
+            }
+            
+            return RedirectToAction("Index");
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
