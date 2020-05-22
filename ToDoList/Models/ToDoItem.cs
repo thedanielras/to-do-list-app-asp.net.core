@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace ToDoList.Models
 {
@@ -10,6 +11,10 @@ namespace ToDoList.Models
     }
     public class ToDoItem
     {
+        public ToDoItem()
+        {
+            Created = DateTime.Now;
+        }
         public ToDoItem(string task, Priority priority)
         {
             Task = task;
