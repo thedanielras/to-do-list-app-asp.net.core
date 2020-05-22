@@ -21,12 +21,8 @@ namespace ToDoList.Controllers
 
         public IActionResult Index()
         {
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
+            var toDoItems = _context.ToDoItems.ToList();
+            return View(toDoItems);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
