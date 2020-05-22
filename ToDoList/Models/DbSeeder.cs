@@ -6,9 +6,10 @@ namespace ToDoList.Models
     {
         public static void Seed(ToDoListContext context)
         {
-            if (context.ToDoItems.Any())
+            if (!context.ToDoItems.Any())
             {
                 context.ToDoItems.Add(new ToDoItem("Sample Task", Priority.Medium));
+                context.SaveChanges();
             }
         }
     }
