@@ -13,7 +13,7 @@ namespace ToDoList.Models
         public ToDoItem(string task, Priority priority)
         {
             Task = task;
-            Created = new DateTime();
+            Created = DateTime.Now;
             Priority = priority;
         }
 
