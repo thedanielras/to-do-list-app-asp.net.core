@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace ToDoList.Models
@@ -23,6 +23,7 @@ namespace ToDoList.Models
         }
 
         public int Id { get; set; }
+        [Required(ErrorMessage = "Task is required")]
         public string Task { get; set; }
         public DateTime Created { get; set; }
         public bool Completed { get; set; }
