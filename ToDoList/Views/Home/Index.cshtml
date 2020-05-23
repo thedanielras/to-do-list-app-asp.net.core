@@ -34,7 +34,19 @@
                         </span>
                     </div>
                     <div class="col-12 col-sm-1 text-center text-sm-right">
-                        <input type="checkbox" value="@toDoItem.Completed">
+                        @if (toDoItem.Completed)
+                        {
+                            <button type="button" class="btn btn-danger">
+                                <i class="far fa-trash-alt"></i>
+                            </button>
+                        }
+                        else
+                        {
+                            <button type="button" class="btn btn-primary">
+                                <i class="fas fa-check"></i>
+                            </button>
+                        }
+
                     </div>
                 </div>
             </div>
