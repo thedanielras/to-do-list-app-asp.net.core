@@ -13,6 +13,7 @@ namespace ToDoList.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private ToDoListContext _context;
+
         public HomeController(ILogger<HomeController> logger, ToDoListContext context)
         {
             _logger = logger;
@@ -24,7 +25,7 @@ namespace ToDoList.Controllers
             var toDoItems = _context.ToDoItems.ToList();
             return View(toDoItems);
         }
-        
+
         [HttpPost]
         public IActionResult Add(ToDoItem toDoItem)
         {
@@ -33,8 +34,25 @@ namespace ToDoList.Controllers
                 _context.ToDoItems.Add((toDoItem));
                 _context.SaveChanges();
             }
-            
+
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult MarkCompleted(int? toDoItemId)
+        {
+            if (toDoItemId == null) return StatusCode(500);
+            ToDoItem item = _context.ToDoItems.FirstOrDefault(t => t.Id == toDoItemId);
+
+            if (item != null)
+            {
+                item.MarkAsCompleted();
+                _context.SaveChanges();
+
+                return Json(item);
+            }
+
+            return StatusCode(500);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
