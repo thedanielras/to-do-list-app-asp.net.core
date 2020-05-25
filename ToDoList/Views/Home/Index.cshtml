@@ -4,16 +4,16 @@
     @foreach (var toDoItem in Model)
     {
         <div>
-            <div class="container bg-dark rounded align-middle py-2 my-2">
+            <div class="container rounded align-middle py-2 my-2 todo-container @(toDoItem.Completed ? "bg-info" : "bg-dark")" data-itemid="@toDoItem.Id">
                 <div class="row align-items-center text-center text-sm-left">
                     <div class="col-12 col-sm-5 col-md-6 col-lg-7 col-xl-7 align-items-center mb-0 align-middle" style="overflow:hidden;">
-                        <h4 class="text-light">
+                        <h4 class="text-light todo-container__task" style="@(toDoItem.Completed ? "text-decoration:line-through;" : "")">
                             @toDoItem.Task
                         </h4>
                     </div>
                     <div class="col-6 col-sm-2 py-2 py-sm-0">
                         @{
-                            string textClassName = "text-info";
+                            string textClassName = toDoItem.Completed ? "text-light" : "text-info";
                             switch (toDoItem.Priority)
                             {
                                 case Priority.Medium:
@@ -24,7 +24,7 @@
                                     break;
                             }
 
-                            <span class="@textClassName font-weight-bold">
+                            <span class="@textClassName font-weight-bold todo-container__priority">
                                 @toDoItem.Priority.ToString()
                             </span>
                         }
@@ -37,13 +37,17 @@
                     <div class="col-12 col-sm-2 col-md-2 col-lg-1 text-center text-sm-right">
                         @if (toDoItem.Completed)
                         {
-                            <button type="button" class="btn btn-danger">
+                            <button type="button"
+                                    class="btn btn-danger btn_remove_todo todo-container__action-button"
+                                    data-itemid="@toDoItem.Id">
                                 <i class="far fa-trash-alt"></i>
                             </button>
                         }
                         else
                         {
-                            <button type="button" class="btn btn-primary">
+                            <button type="button"
+                                    class="btn btn-primary btn_mark_completed todo-container__action-button"
+                                    data-itemid="@toDoItem.Id">
                                 <i class="fas fa-check"></i>
                             </button>
                         }
