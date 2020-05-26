@@ -12,20 +12,29 @@ namespace ToDoList.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private ToDoListContext _context;
+        public HomeController(ILogger<HomeController> logger, ToDoListContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var toDoItems = _context.ToDoItems.ToList();
+            return View(toDoItems);
         }
-
-        public IActionResult Privacy()
+        
+        [HttpPost]
+        public IActionResult Add(ToDoItem toDoItem)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                _context.ToDoItems.Add((toDoItem));
+                _context.SaveChanges();
+            }
+            
+            return RedirectToAction("Index");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

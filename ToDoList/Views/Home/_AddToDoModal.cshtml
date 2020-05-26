@@ -1,0 +1,45 @@
+﻿<div class="modal fade" id="add-todoitem-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add To Do</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            @using (Html.BeginForm("Add", "Home"))
+            {
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-2 text-left pl-1">
+                                @Html.Label("Task")
+                            </div>
+                            <div class="col">
+                                @Html.TextBox("Task", "", null, new {style = "width:100%;"})
+                            </div>
+                        </div>
+                        <div class="row py-1">
+                            <div class="col-2 text-left pl-1">
+                                @Html.Label("Priority")
+                            </div>
+                            <div class="col">
+                                @Html.DropDownList("Priority", new List<SelectListItem>()
+                                {
+                                    new SelectListItem("Low", "0"),
+                                    new SelectListItem("Medium", "1", true), 
+                                    new SelectListItem("High", "2")
+                                })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
