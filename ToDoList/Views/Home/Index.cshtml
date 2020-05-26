@@ -4,7 +4,10 @@
     @foreach (var toDoItem in Model)
     {
         <div>
-            <div class="container rounded align-middle py-2 my-2 todo-container @(toDoItem.Completed ? "bg-info" : "bg-dark")" data-itemid="@toDoItem.Id">
+            <div 
+                class="container rounded align-middle py-2 my-2 todo-container @(toDoItem.Completed ? "bg-info" : "bg-dark")" 
+                data-itemid="@toDoItem.Id"
+                data-toggle="modal" data-target="#edit-todoitem-modal">
                 <div class="row align-items-center text-center text-sm-left">
                     <div class="col-12 col-sm-5 col-md-6 col-lg-7 col-xl-7 align-items-center mb-0 align-middle" style="overflow:hidden;">
                         <h4 class="text-light todo-container__task" style="@(toDoItem.Completed ? "text-decoration:line-through;" : "")">
@@ -24,7 +27,7 @@
                                     break;
                             }
 
-                            <span class="@textClassName font-weight-bold todo-container__priority">
+                            <span class="@textClassName font-weight-bold todo-container__priority" data-priority="@((int)toDoItem.Priority)">
                                 @toDoItem.Priority.ToString()
                             </span>
                         }
@@ -67,3 +70,4 @@
     </button>
 </div>
 @await Html.PartialAsync("_AddToDoModal")
+@await Html.PartialAsync("_EditDetailsModal")
