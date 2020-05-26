@@ -6,17 +6,21 @@
             let toDoItemId = this.dataset.itemid;
             doMarkCompletedRequest(toDoItemId);
         });
+        $(".btn_remove_todo").click(function () {
+            let toDoItemId = this.dataset.itemid;
+            doDeleteToDoItemRequest(toDoItemId);
+        });
     }
 
     let doMarkCompletedRequest = function (toDoItemId) {
         $.ajax("/Home/MarkCompleted", {
             data: "toDoItemId=" + toDoItemId,
             method: "POST",
-            success: function (data, textStatus, jqXHR) {
+            success: function (data) {
                 console.log("Successfully marked as completed");
                 markCompleted(data);
             },
-            error: function (jqXHR, textStatus, errorThrown) {
+            error: function (jqXHR, textStatus) {
                 console.log("Failed requesting for item completion");
                 console.log("StatusCode: " + jqXHR.status);
                 console.log("Message: " + textStatus);
@@ -24,13 +28,13 @@
         });
     }
 
-    let markCompleted = function (todo) {
-        if (!todo || !todo.id) {
+    let markCompleted = function (toDoItem) {
+        if (!toDoItem || !toDoItem.id) {
             console.log("failed changing todo state");
             return;
         }
 
-        let toDoItemId = todo.id;
+        let toDoItemId = toDoItem.id;
         let toDoPageItem = $(".todo-container[data-itemid=" + toDoItemId + "]");
 
         toDoPageItem
@@ -41,7 +45,8 @@
             .find("button.todo-container__action-button")
             .unbind("click")
             .click(function () {
-                alert("remove")
+                let toDoItemId = this.dataset.itemid;
+                doDeleteToDoItemRequest(toDoItemId);
             })
             .removeClass("btn-primary")
             .addClass("btn-danger")
@@ -49,12 +54,40 @@
             .removeClass("fa-check")
             .addClass("fa-trash-alt");
 
-        if (todo.priority === 0) {
+        if (toDoItem.priority === 0) {
             toDoPageItem
                 .find(".todo-container__priority")
                 .removeClass("text-info")
                 .addClass("text-light")
         }
+    }
+    
+    let doDeleteToDoItemRequest = function (toDoItemId) {
+        $.ajax("/Home/RemoveToDo", {
+            data: "toDoItemId=" + toDoItemId,
+            method: "POST",
+            success: function (data, textStatus, jqXHR) {
+                console.log("Successfully deleted id:" + data.id);
+                deleteToDoItemFromPage(data);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log("Failed requesting for item deletion");
+                console.log("StatusCode: " + jqXHR.status);
+                console.log("Message: " + textStatus);
+            }
+        });
+    }
+    
+    let deleteToDoItemFromPage = function (toDoItem) {
+        if (!toDoItem || !toDoItem.id) {
+            console.log("failed changing todo state");
+            return;
+        }
+
+        let toDoItemId = toDoItem.id;
+        let toDoPageItem = $(".todo-container[data-itemid=" + toDoItemId + "]");
+        toDoPageItem.css("opacity", "0");
+        setTimeout(function () {toDoPageItem.remove()}, 300);        
     }
 
     constructor();
