@@ -2,13 +2,28 @@
     let _this = this;
 
     let constructor = function () {
-        $(".btn_mark_completed").click(function () {
+        $(".btn_mark_completed").click(function (e) {
+            e.stopPropagation();
             let toDoItemId = this.dataset.itemid;
             doMarkCompletedRequest(toDoItemId);
         });
-        $(".btn_remove_todo").click(function () {
+        $(".btn_remove_todo").click(function (e) {
+            e.stopPropagation();
             let toDoItemId = this.dataset.itemid;
             doDeleteToDoItemRequest(toDoItemId);
+        });
+        $('#edit-todoitem-modal').on('show.bs.modal', function (event) {
+            let id = $(event.relatedTarget).data("itemid");
+            let task = $(event.relatedTarget)
+                .find(".todo-container__task")
+            task = task.length ? task[0].innerText : "";
+            let priority = $(event.relatedTarget)
+                .find(".todo-container__priority")
+                .data("priority");
+
+            $(this).find("#edit-todo__id").val(id);
+            $(this).find("#edit-todo__task").val(task).focus();
+            $(this).find("#edit-todo__priority").val(priority);
         });
     }
 
@@ -44,7 +59,8 @@
         toDoPageItem
             .find("button.todo-container__action-button")
             .unbind("click")
-            .click(function () {
+            .click(function (e) {
+                e.stopPropagation();
                 let toDoItemId = this.dataset.itemid;
                 doDeleteToDoItemRequest(toDoItemId);
             })
@@ -61,7 +77,7 @@
                 .addClass("text-light")
         }
     }
-    
+
     let doDeleteToDoItemRequest = function (toDoItemId) {
         $.ajax("/Home/RemoveToDo", {
             data: "toDoItemId=" + toDoItemId,
@@ -77,7 +93,7 @@
             }
         });
     }
-    
+
     let deleteToDoItemFromPage = function (toDoItem) {
         if (!toDoItem || !toDoItem.id) {
             console.log("failed changing todo state");
@@ -87,7 +103,9 @@
         let toDoItemId = toDoItem.id;
         let toDoPageItem = $(".todo-container[data-itemid=" + toDoItemId + "]");
         toDoPageItem.css("opacity", "0");
-        setTimeout(function () {toDoPageItem.remove()}, 300);        
+        setTimeout(function () {
+            toDoPageItem.remove()
+        }, 300);
     }
 
     constructor();
