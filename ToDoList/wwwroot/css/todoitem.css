@@ -1,3 +1,4 @@
 ﻿.todo-container {
     transition: all .3s;
+    cursor: pointer;
 }
