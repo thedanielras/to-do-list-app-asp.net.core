@@ -40,6 +40,29 @@ namespace ToDoList.Controllers
         }
 
         [HttpPost]
+        public IActionResult Edit(ToDoItem toDoItem)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var entity = _context.Entry(toDoItem);
+                    entity.State = EntityState.Modified;
+                    entity.Property("Created").IsModified = false;
+                    
+                    _context.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error updating entity");
+                    return StatusCode(500);
+                }
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
         public IActionResult MarkCompleted(int? toDoItemId)
         {
             if (toDoItemId == null) return StatusCode(500);
