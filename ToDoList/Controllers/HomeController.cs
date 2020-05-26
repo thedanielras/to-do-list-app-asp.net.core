@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using ToDoList.Models;
 
@@ -47,6 +48,23 @@ namespace ToDoList.Controllers
             if (item != null)
             {
                 item.MarkAsCompleted();
+                _context.SaveChanges();
+
+                return Json(item);
+            }
+
+            return StatusCode(500);
+        }
+
+        [HttpPost]
+        public IActionResult RemoveToDo(int? toDoItemId)
+        {
+            if (toDoItemId == null) return StatusCode(500);
+            ToDoItem item = _context.ToDoItems.FirstOrDefault(t => t.Id == toDoItemId);
+
+            if (item != null)
+            {
+                _context.Entry(item).State = EntityState.Deleted;
                 _context.SaveChanges();
 
                 return Json(item);
