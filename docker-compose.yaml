@@ -8,7 +8,7 @@ services:
     networks:
       - app-net
     environment:
-      - POSTGRES_PASSWORD=Dancik!)@())
+      - POSTGRES_PASSWORD=samplePass!@
   todolistapp:
     build: .
     ports:
@@ -16,10 +16,10 @@ services:
     networks:
       - app-net
     environment:
-      - ConnectionString__PostGresSql=User ID=postgres;Password=Dancik!)@());Host=postgresdb;Port=5432;Database=ToDoListAppDB
+      - ConnectionString__PostGresSql=User ID=postgres;Password=samplePass!@;Host=postgresdb;Port=5432;Database=ToDoListAppDB
     depends_on:
       - postgresdb
-    entrypoint: ["./wait-for-it.sh", "db:5432", "--", "dotnet", "ToDoList.dll"]
+    entrypoint: ["./wait-for-it.sh", "postgresdb:5432", "--", "dotnet", "ToDoList.dll"]
 networks:
   app-net:
     driver: bridge
