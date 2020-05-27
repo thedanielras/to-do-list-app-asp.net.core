@@ -28,5 +28,10 @@ namespace ToDoList.Models
         public DateTime Created { get; set; }
         public bool Completed { get; set; }
         public Priority Priority { get; set; }
+
+        public void MarkAsCompleted()
+        {
+            Completed = true;
+        }
     }
 }
