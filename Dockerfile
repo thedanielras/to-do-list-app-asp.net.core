@@ -18,6 +18,7 @@ RUN dotnet publish -c release -o /app
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
 WORKDIR /app
 COPY sh/. ./
+RUN chmod +x wait-for-it.sh
 COPY --from=build /app ./
 
 # wait for db access and run
