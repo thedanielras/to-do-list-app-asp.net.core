@@ -1,7 +1,6 @@
 # To Do List app
 #### Written in ASP.NET Core 3, deployed using docker, data saved in postgres db
 
-## Watch online @ http://37.228.117.131/
 ## Overview
 ![Overview](/img/overview.png)
 ## Add To Do
